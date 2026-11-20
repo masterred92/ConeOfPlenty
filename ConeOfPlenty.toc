@@ -2,7 +2,7 @@
 ## Title: Cone of Plenty
 ## Notes: Frost Mage Winter's Chill counter: SCOOP 3/5 while you stack Winter's Chill, CONE NOW when Cone of Cold should spend it. Reads the stacks when the game allows, counts your casts only at 5/5 talent, otherwise says CHANCE ONLY. Part of the Frost Suite; works alone.
 ## Author: Kenny
-## Version: 1.0.0
+## Version: 1.0.1
 ## SavedVariables: KennyConeOfPlentyDB
 ## X-License: MIT
 ## IconTexture: Interface\Icons\Spell_Frost_Glacier

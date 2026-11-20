@@ -1,6 +1,6 @@
 # Cone of Plenty
 
-A tiny Frost Mage box for **WoW: Forever** (Interface 16001). Version 1.0.0. Part of Kenny's Frost Suite, and it works alone.
+A tiny Frost Mage box for **WoW: Forever** (Interface 16001). Version 1.0.1. Part of Kenny's Frost Suite, and it works alone.
 
 On Forever, Winter's Chill is a **Cone of Cold setup**, not a crit debuff. The talent's tooltip says Frostbolt and Fingers of
 Frost empowered Ice Lance have a chance to apply Winter's Chill, "increasing the target's damage taken from your next Cone of
