@@ -26,6 +26,7 @@ ns.Core.AddLocale("enUS", {
   ["recent errors"] = true,
   ["scale"] = true,
   ["sound:"] = true,
+  ["stack count hidden"] = true,
   ["talent rank hidden"] = true,
   ["text"] = true,
   ["working together with"] = true,

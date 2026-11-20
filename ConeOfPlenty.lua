@@ -1,7 +1,9 @@
 -- Cone of Plenty: a Winter's Chill counter for Frost Mages on WoW: Forever. Written from scratch (MIT).
 --
 -- Why: Winter's Chill on Forever is a Cone of Cold setup, not a crit debuff. Client tooltip (talent 11180): Frostbolt and
--- Fingers of Frost empowered Ice Lance have a 20/40/60/80/100% chance to apply Winter's Chill (debuff 12579), "increasing the
+-- Fingers of Frost empowered Ice Lance have a "$m2%" chance to apply Winter's Chill (debuff 12579). $m2 per rank comes from
+-- the talent's effect-points curve in the 70862 game data (TraitDefinition 135293 -> TraitDefinitionEffectPoints effect 1 ->
+-- Curve 83063: ranks 1-5 = 20/40/60/80/100), so 5/5 = 100% per cast, a miss aside. The tooltip goes on: "increasing the
 -- target's damage taken from your next Cone of Cold by 20% and it gains an additional 7% of your spell damage, stacking up to
 -- 5 times." The question in the moment is "dump Cone of Cold now, or keep stacking?":
 --   SCOOP 3/5   building           CONE NOW   at 5 (or your threshold)           CHANCE ONLY   can't know the stacks
@@ -95,7 +97,11 @@ function CP.Stacks()
     if not hasTarget() then return 0 end
     local a, ok = FS.ReadAura("target", CP.DEBUFF)
     if not ok then return nil end
-    return a and math.min(CP.MAX, FS.AuraField(a, "applications") or 1) or 0
+    if not a then return 0 end
+    local apps = FS.AuraField(a, "applications")
+    if apps == nil then return nil end -- secret or missing: the count is unknown, never a guessed 1
+    if apps == 0 then apps = 1 end     -- 0 = a single application on a non-stacked aura
+    return math.min(CP.MAX, apps)
   elseif CP.mode == "casts" then
     if CP.lastStack and now() - CP.lastStack > CP.DEBUFF_SECONDS then CP.count, CP.lastStack = 0, nil end
     return CP.count
@@ -138,7 +144,7 @@ function CP.Paint()
     FS.Headline(KEY, ""); FS.Bar(KEY, nil); FS.Status(KEY, L["can't see your casts here"], "Mist"); FS.State(KEY, "idle")
   elseif s == "chance" then
     FS.Headline(KEY, L["CHANCE ONLY"], "Mist"); FS.Bar(KEY, nil)
-    FS.Status(KEY, CP.rank == nil and L["talent rank hidden"] or ("%d/%d"):format(CP.rank, CP.maxRank or 5), "Mist")
+    FS.Status(KEY, CP.mode == "aura" and L["stack count hidden"] or (CP.rank == nil and L["talent rank hidden"] or ("%d/%d"):format(CP.rank, CP.maxRank or 5)), "Mist")
     FS.State(KEY, C.InCombat() and "active" or "idle")
   elseif s == "cone" then
     FS.Headline(KEY, L["CONE NOW"], "ScoopBlue"); FS.Bar(KEY, 1, "ScoopBlue"); FS.Status(KEY, tag, "Mist"); FS.State(KEY, "active")
@@ -147,7 +153,8 @@ function CP.Paint()
     FS.Status(KEY, tag, "Mist"); FS.State(KEY, "active")
   else
     FS.Headline(KEY, ""); FS.Bar(KEY, nil)
-    FS.Status(KEY, (C.InCombat() and tag ~= "") and tag or ("0/%d"):format(CP.MAX), "Mist")
+    local zero = ("0/%d"):format(CP.MAX)
+    FS.Status(KEY, tag == "" and zero or (C.InCombat() and tag or (zero .. " · " .. tag)), "Mist")
     FS.State(KEY, C.InCombat() and "active" or "idle")
   end
 end

@@ -3,9 +3,10 @@
 A tiny Frost Mage box for **WoW: Forever** (Interface 16001). Version 1.0.0. Part of Kenny's Frost Suite, and it works alone.
 
 On Forever, Winter's Chill is a **Cone of Cold setup**, not a crit debuff. The talent's tooltip says Frostbolt and Fingers of
-Frost empowered Ice Lance have a 20/40/60/80/100% chance to apply Winter's Chill, "increasing the target's damage taken from
-your next Cone of Cold by 20% and it gains an additional 7% of your spell damage, stacking up to 5 times." This box answers one
-question: dump Cone of Cold now, or keep stacking?
+Frost empowered Ice Lance have a chance to apply Winter's Chill, "increasing the target's damage taken from your next Cone of
+Cold by 20% and it gains an additional 7% of your spell damage, stacking up to 5 times." The chance per talent rank is
+20/40/60/80/100%: that's the talent's effect-points curve in the game data for build 1.60.1.70862 (TraitDefinition 135293,
+effect 1, Curve 83063), which fills the tooltip's chance. This box answers one question: dump Cone of Cold now, or keep stacking?
 
 | Box says | Means |
 | --- | --- |

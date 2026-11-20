@@ -71,6 +71,20 @@ SlashCmdList.FROSTSUITE("cone at 3")
 S.unitGain("target", WC, 3, 15)
 check(CP.state == "cone", "/frost cone at 3")
 SlashCmdList.FROSTSUITE("cone at 5")
+-- applications: secret = unknown (never a guessed 1); 0 = one application on a non-stacked aura.
+local sv = {}; W.secret[sv] = true
+S.unitGain("target", WC, 2, 15); S.unit.target[WC].applications = sv; W.fire("UNIT_AURA", "target", {})
+check(CP.stacks == nil and CP.state == "chance" and row.statusText == "stack count hidden", "secret applications: count unknown, not 1")
+S.unit.target[WC].applications = nil; W.fire("UNIT_AURA", "target", {})
+check(CP.stacks == nil, "missing applications: unknown")
+S.unit.target[WC].applications = 0; W.fire("UNIT_AURA", "target", {})
+check(CP.stacks == 1 and row.headText == "SCOOP 1/5", "applications 0 on a present debuff: 1")
+S.unitDrop("target", WC)
+
+-- 3b. Idle out of combat in casts mode (debuff always secret, 5/5): the strip still says it is counting casts.
+reset(5); S.always[WC] = true; CP.Update()
+check(CP.mode == "casts" and CP.state == "idle" and row.statusText == "0/5 · counting casts", "idle out of combat: 0/5 · counting casts")
+SlashCmdList.FROSTSUITE("cone at 5")
 
 -- 4. Hidden casts at 5/5 with secret stacks: says it can't see.
 reset(5); S.castSecretInCombat = true; fight()
