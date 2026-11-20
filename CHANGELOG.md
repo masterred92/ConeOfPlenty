@@ -4,7 +4,7 @@
 
 - Layout fixes (FrostSuite-1.0 r4, shared by the suite): a status too long to sit beside the title moves to its own line instead of running into it, and box heights fit their text.
 - Box is 64 px in combat, so a status moved off the title line fits.
-- Low-level Mages (FrostSuite-1.0 r5, shared by the suite): until you have Cone of Cold and the Winter's Chill talent the box shows one calm line, e.g. `Learn Cone of Cold at level 26`, with a small **Hide until I learn** button (saved per character). It steps aside in combat and comes back by itself as soon as you learn them (checked when you learn a spell, level up, change talents or leave combat).
+- Low-level Mages (FrostSuite-1.0 r6, shared by the suite): until you have Cone of Cold and the Winter's Chill talent the box shows one calm line, e.g. `Learn Cone of Cold at level 26`, with a small **Hide until I learn** button (saved per character). It steps aside in combat and comes back by itself as soon as you learn them (checked when you learn a spell, level up, change talents or leave combat).
 
 ## 1.0.0 (Nov 20, 2026)
 
