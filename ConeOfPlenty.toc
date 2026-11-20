@@ -1,0 +1,17 @@
+## Interface: 16001
+## Title: Cone of Plenty
+## Notes: Frost Mage Winter's Chill counter: SCOOP 3/5 while you stack Winter's Chill, CONE NOW when Cone of Cold should spend it. Reads the stacks when the game allows, counts your casts only at 5/5 talent, otherwise says CHANCE ONLY. Part of the Frost Suite; works alone.
+## Author: Kenny
+## Version: 1.0.0
+## SavedVariables: KennyConeOfPlentyDB
+## X-License: MIT
+## IconTexture: Interface\Icons\Spell_Frost_Glacier
+## X-Category: Combat
+## X-Website: https://github.com/masterred92/ConeOfPlenty
+
+Libs\KennyShared\Compat.lua
+Libs\KennyShared\Core.lua
+Libs\KennyShared\Hub.lua
+Libs\FrostSuite\FrostSuite.lua
+Locales\enUS.lua
+ConeOfPlenty.lua
