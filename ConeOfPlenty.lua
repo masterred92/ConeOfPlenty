@@ -36,6 +36,10 @@ CP.FROSTBOLT = { [116] = 1, [205] = 2, [837] = 3, [7322] = 4, [8406] = 5, [8407]
   [10181] = 10, [25304] = 11 }
 CP.LANCE = { [1312002] = 1, [400640] = 2, [1240044] = 3, [1240045] = 4, [1240046] = 5, [1240047] = 6 }
 CP.FINGERS = { 400669, 400670 }
+-- Cone of Cold: SpellLevels.BaseLevel 26 (spell 120); Winter's Chill: talent 11180, Talent TierID 5 = level 35 (10 + 5 x 5),
+-- build 1.60.1.71037.
+CP.NEEDS = { { name = L["Cone of Cold"], level = 26, spells = CP.CONE },
+  { name = L["Winter's Chill"], level = 35, spells = { [CP.TALENT] = true }, talent = true } }
 CP.DEFAULTS = { threshold = 5 }
 
 local db, settings, row
@@ -74,8 +78,13 @@ function CP.ReadRank()
   if C.InCombat() then return end -- talents only re-read out of combat
   local r, m = FS.TalentRank(CP.TALENT)
   CP.rank, CP.maxRank = r, m
-  if r == nil then CP.known = FS.IsMage() and FS.KnowsAny({ [CP.TALENT] = true }) ~= false
-  else CP.known = FS.IsMage() and r > 0 end
+  local talent
+  if r == nil then talent = FS.KnowsAny({ [CP.TALENT] = true }) ~= false else talent = r > 0 end
+  -- a Mage without Cone of Cold or the talent yet: CP.need names the first one missing (the box says when)
+  CP.need = nil
+  if FS.IsMage() then CP.need = FS.Missing({ CP.NEEDS[1] }) or ((not talent) and CP.NEEDS[2] or nil) end
+  CP.known = FS.IsMage() and CP.need == nil
+  if CP.known then FS.Learned(KEY) end
 end
 
 function CP.FingersUp()
@@ -137,7 +146,10 @@ end
 
 function CP.Paint()
   local s, n = CP.state, CP.stacks
-  if s == "hidden" then FS.State(KEY, "hidden"); return end
+  if s == "hidden" then
+    if CP.need then FS.NotYet(KEY, CP.need) else FS.State(KEY, "hidden") end
+    return
+  end
   FS.ClearLines(KEY)
   local tag = CP.mode == "casts" and L["counting casts"] or ""
   if s == "none" then
@@ -238,7 +250,8 @@ ev:SetScript("OnEvent", function(_, event, ...)
     db = Core.Migrate(KennyConeOfPlentyDB, migrations, SCHEMA)
     KennyConeOfPlentyDB = db
     settings = Core.Settings(db.settings, CP.DEFAULTS)
-    row = FS.Register(KEY, db, { title = L["Cone of Plenty"], slash = CP.Slash, help = "at 1-5 | sound on|off | debug", debug = Core.PrintDebug })
+    row = FS.Register(KEY, db, { title = L["Cone of Plenty"], slash = CP.Slash, help = "at 1-5 | sound on|off | debug", debug = Core.PrintDebug,
+      refresh = refresh })
     Core.SafeCall("refresh", refresh)
     return
   end

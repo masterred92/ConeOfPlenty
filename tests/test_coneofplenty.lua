@@ -90,9 +90,9 @@ SlashCmdList.FROSTSUITE("cone at 5")
 reset(5); S.castSecretInCombat = true; fight()
 S.cast(FB)
 check(CP.mode == "none" and row.statusText == "can't see your casts here", "hidden casts: none")
--- 5. No talent: no slot.
+-- 5. No talent: one calm line (tests/test_lowlevel.lua).
 reset(0)
-check(row.state == "hidden", "Winter's Chill 0/5: hidden")
+check(row.state == "learn" and row.learnText.text_ == "Take the Winter's Chill talent", "Winter's Chill 0/5: says to take the talent (r5)")
 reset(5)
 check(row.state ~= "hidden", "talented: shown")
 local src = io.open("ConeOfPlenty.lua"):read("*a")

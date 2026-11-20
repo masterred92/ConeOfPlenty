@@ -35,6 +35,12 @@ The build brief asked for a readability test before building this. Here's what c
   readable, separately out of combat and in combat. `/frost cone debug` prints the result, for example
   `out of combat yes, in combat no`, plus the spell's secrecy flag. It then uses the best mode it's allowed, as in the table above.
 
+## Low-level Mages
+
+Until you have Cone of Cold (level 26) and the Winter's Chill talent (from level 35), the box shows one calm line, like `Learn Cone of Cold at level 26`, and a small
+**Hide until I learn** button. In combat the line steps aside. The button hides the box on that character only, and the box comes back by
+itself when you learn what it needs. Other classes never see it.
+
 ## Commands
 
 The Frost Suite has no per-addon slash commands, only `/frost <sub>`. That keeps the risk of clashing with other addons low.
